@@ -39,6 +39,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.livesLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.exitLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox4)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -47,18 +48,20 @@
             // 
             // chaseTimer
             // 
+            this.chaseTimer.Interval = 10;
             this.chaseTimer.Tick += new System.EventHandler(this.chaseTimer_Tick);
             // 
             // label1
             // 
-            this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Lucida Sans Unicode", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.White;
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(684, 23);
+            this.label1.Size = new System.Drawing.Size(717, 71);
             this.label1.TabIndex = 3;
-            this.label1.Text = "You wake in a strange place, carrying only a flashlight.  Must be a cave.";
+            this.label1.Text = "You wake in a strange place, carrying only a flashlight.  You are surrounded by r" +
+    "ocky walls and the lighting is dim. It seems to be a cave. Use the arrow keys to" +
+    " move around.";
             // 
             // inventoryLabel
             // 
@@ -96,7 +99,7 @@
             // 
             this.pictureBox2.BackColor = System.Drawing.Color.Black;
             this.pictureBox2.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox2.Image")));
-            this.pictureBox2.Location = new System.Drawing.Point(941, 652);
+            this.pictureBox2.Location = new System.Drawing.Point(960, 663);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(62, 62);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -107,7 +110,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = global::WindowsFormsApplication1.Properties.Resources.monsterPiskel;
-            this.pictureBox1.Location = new System.Drawing.Point(856, 652);
+            this.pictureBox1.Location = new System.Drawing.Point(892, 663);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(62, 62);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -137,12 +140,27 @@
             this.label2.TabIndex = 7;
             this.label2.Text = "Inventory :";
             // 
+            // exitLabel
+            // 
+            this.exitLabel.AutoSize = true;
+            this.exitLabel.Font = new System.Drawing.Font("Open Sans", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.exitLabel.ForeColor = System.Drawing.Color.Black;
+            this.exitLabel.Location = new System.Drawing.Point(640, 579);
+            this.exitLabel.Name = "exitLabel";
+            this.exitLabel.Size = new System.Drawing.Size(123, 65);
+            this.exitLabel.TabIndex = 8;
+            this.exitLabel.Text = "EXIT";
+            this.exitLabel.Visible = false;
+            this.exitLabel.Click += new System.EventHandler(this.exitLabel_Click);
+            this.exitLabel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.exitLabel_MouseMove);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(1034, 731);
+            this.Controls.Add(this.exitLabel);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.livesLabel);
             this.Controls.Add(this.inventoryLabel);
@@ -175,6 +193,7 @@
         private System.Windows.Forms.Label inventoryLabel;
         private System.Windows.Forms.Label livesLabel;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label exitLabel;
     }
 }
 

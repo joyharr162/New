@@ -18,19 +18,27 @@ namespace WindowsFormsApplication1
     public partial class Form1 : Form
     {
         //images and variables
+        Image cat = Properties.Resources.catPiskel;
         Image forwardHero = Properties.Resources.person;
         Image backHero = Properties.Resources.personBack;
-        Image lefthero = Properties.Resources.personLeft;
-        Image righthero = Properties.Resources.personRight;
+        Image leftHero = Properties.Resources.personLeft;
+        Image rightHero = Properties.Resources.personRight;
         Image monster1 = Properties.Resources.monsterPiskel;
         Image monster2 = Properties.Resources.monsterPiskel2;
         int monsterX = 500;
         int monsterY = 500;
         int heroX = 500;
         int heroY = 500;
-        int monsterSpeed = 2;
+        int speed = 2;
         int scene = 0;
         int playerLives = 3;
+        int exitX;
+        int exitY;
+        int startScene = 0;
+        int flash = 0;
+        Boolean leftKey = false, rightKey = false, upKey = false, downKey = false;
+
+        Random randGen = new Random();
 
         SolidBrush doorBrush = new SolidBrush(Color.Sienna);
         SolidBrush goldBrush = new SolidBrush(Color.Gold);
@@ -39,25 +47,37 @@ namespace WindowsFormsApplication1
         public Form1()
         {
             InitializeComponent();
-            //create rectangles for monsters and hero
-            Rectangle r1 = new Rectangle(monsterX, monsterY, 62, 62);
-            Rectangle r2 = new Rectangle(monsterX + 50, monsterY + 50, 62, 62);
-            Rectangle r3 = new Rectangle(heroX, heroY, 126, 130);
 
-            if (r1.IntersectsWith(r2))
-            {
-                //    MessageBox.Show("Intersected!");
-            }
-            else
-            {
-                //    MessageBox.Show("Non-Intersected!");
-            }
+            chaseTimer.Start();
             Refresh();
         }
 
         //unused timer method
         private void chaseTimer_Tick(object sender, EventArgs e)
         {
+            if (leftKey == true && heroX > 0)
+            {
+               heroX = heroX - speed;
+            }
+            else if (rightKey == true && heroX < 920)
+            {
+                heroX = heroX + speed;
+            }
+            if (upKey == true && heroY > 0)
+            {
+                heroY = heroY - speed;
+            }
+            else if (downKey == true && heroY < 520)
+            {
+                heroY = heroY + speed;
+            }
+            pictureBox3.Location = new Point(heroX, heroY);
+            Rectangle r1 = new Rectangle(heroX, heroY, 126, 130);
+            Rectangle r2 = new Rectangle(this.Width - 175, 0, 125, 200);
+            if (r1.IntersectsWith(r2))
+            {
+                scene = 1;
+            }
         }
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
@@ -65,23 +85,49 @@ namespace WindowsFormsApplication1
             Graphics fg = this.CreateGraphics();
 
             //controls character movement and switches scenes
+            if (e.KeyCode == Keys.Up)
+            {
+                upKey = true;
+                pictureBox3.Image = backHero;
+                pictureBox4.Image = backHero;
+            }
+            else
+            {
+                upKey = false;
+            }
+            if (e.KeyCode == Keys.Down)
+            {
+                downKey = true;
+                pictureBox3.Image = forwardHero;
+                pictureBox4.Image = forwardHero;
+            }
+            else
+            {
+                downKey = false;
+            }
+            if (e.KeyCode == Keys.Right)
+            {
+                rightKey = true;
+                pictureBox3.Image = rightHero;
+                pictureBox4.Image = rightHero;
+            }
+            else
+            {
+                rightKey = false;
+            }
+            if (e.KeyCode == Keys.Left)
+            {
+                leftKey = true;
+                pictureBox3.Image = leftHero;
+                pictureBox4.Image = leftHero;
+            }
+            else
+            {
+                leftKey = false;
+            }
+
             switch (e.KeyCode)
             {
-                case Keys.Left:
-
-                    break;
-                case Keys.Right:
-
-                    break;
-                case Keys.Down:
-
-                    break;
-                case Keys.Up:
-                    if (scene == 0)
-                    {
-                        scene = 1;
-                    }
-                    break;
                 case Keys.A:
                     if (scene == 1)
                     {
@@ -93,7 +139,30 @@ namespace WindowsFormsApplication1
                     }
                     else if (scene == 3)
                     {
-                        //go to mini game 1;
+                        scene = 14;
+                    }
+                    else if (scene == 6)
+                    {
+                        scene = 8;
+                    }
+                    else if (scene == 8)
+                    {
+                        scene = 9;
+                    }
+                    else if (scene == 9)
+                    {
+                        if (exitLabel.ForeColor == Color.OrangeRed)
+                        {
+                            scene = 10;
+                        }
+                    }
+                    else if (scene == 11)
+                    {
+                        scene = 13;
+                    }
+                    else if (scene == 10)
+                    {
+                        scene = 11;
                     }
                     break;
                 case Keys.S:
@@ -108,6 +177,18 @@ namespace WindowsFormsApplication1
                     else if (scene == 3)
                     {
                         scene = 2;
+                    }
+                    else if (scene == 5)
+                    {
+                        scene = 7;
+                    }
+                    else if (scene == 8)
+                    {
+                        scene = 5;
+                    }
+                    else if (scene == 11)
+                    {
+                        scene = 12;
                     }
                     break;
                 case Keys.W:
@@ -127,10 +208,14 @@ namespace WindowsFormsApplication1
             //controls scenes
             switch (scene)
             {
+                case 0:
+                    fg.FillRectangle(doorBrush, this.Width - 175, 0, 125, 200);
+                    fg.FillEllipse(goldBrush, this.Width - 170, 100, 20, 20);
+                    break;
                 case 1:
                     if (scene == 1)
                     {
-                        label1.Text = "You step through the door and see something at your feet. Pick it up? Yes A, no S.";
+                        label1.Text = "You step through the door and see something at your feet. Pick it up? \n\nA = Yes";
                     }
                     fg.Clear(Color.Black);
                     fg.FillRectangle(whiteBrush, this.Width - 500, this.Height / 2, 50, 30);
@@ -138,14 +223,15 @@ namespace WindowsFormsApplication1
                     pictureBox3.Visible = false;
                     break;
                 case 2:
+                    inventoryLabel.Text = "Flashlight      Map";
                     pictureBox4.Visible = false;
                     fg.Clear(Color.Black);
-                    fg.FillRectangle(whiteBrush, 100, 70, 800, 500);
-                    label1.Text = "You realize this is a map of your surroundings. You are at a fork with four tunnels, which have no distinguishable differences. Which do you go down?\n\nA = Tunnel 1\nS = Tunnel 2\nW = Tunnel 3\nD = Tunnel 4";
+                    fg.FillRectangle(whiteBrush, 100, 100, 800, 500);
+                    label1.Text = "You realize this is a map of your surroundings. You are at a fork with four tunnels, which have no distinguishable differences. Which do you go down?  A = Tunnel 1  S = Tunnel 2  W = Tunnel 3  D = Tunnel 4";
                     break;
                 case 3:
                     //tunnel 1
-                    label1.Text = "You come to a locked gate. What do you do?\n\nA = Pick Lock \nS = Turn Back";
+                    label1.Text = "You come to a locked gate. What do you do?  A = Pick Lock  S = Turn Back";
                     break;
                 case 4:
                     //tunnel 2
@@ -161,9 +247,79 @@ namespace WindowsFormsApplication1
                     //tunnel4
                     label1.Text = "You pull out your flashlight and wave it around. The light allows you to see pairs of eyes in the distance. Do you run or try to fight?\n\nA = Run! \nS = Fight!";
                     break;
-
+                case 7:
+                    label1.Text = "You yell 'Who's there?' but no one answers... Suddenly something grabs you from behind. You lose a life";
+                    break;
+                case 8:                 
+                    pictureBox4.Visible = false;
+                    label1.Text = "You run a long way and find an unlocked sewer gate. You decide to go through it, and on the other side it's totally dark. When you feel your shoes start to get wet. \n\nA = Keep Going \nS = Turn Back";
+                    break;
+                case 9:
+                    label1.Text = "You should probably find yourself an exit...";
+                    exitX = randGen.Next(10, 600);
+                    exitY = randGen.Next(50, 550);
+                    fg.Clear(Color.Black);
+                    pictureBox4.Visible = false;
+                    exitLabel.Location = new Point(exitX, exitY);
+                    exitLabel.Visible = true;
+                    break;
+                case 10:
+                    exitLabel.Visible = false;
+                    label1.Text = "You've reached a save point. You'll spawn here if you die. Press A to continue.";
+                    startScene = 11;
+                    break;
+                case 11:
+                    label1.Text = "You turn a corner and suddenly you here a faint meow. It's a kitten! Do you pick it up? \n\nA = Pick it up \nS = Leave it on the ground";
+                    pictureBox3.Visible = true;
+                    pictureBox3.Image = cat;
+                    break;
+                case 12:
+                    label1.Text = "You don't pick up the kitten. You heartless creature. \n\nA = Change Your Mind";
+                    break;
+                case 13:
+                    label1.Text = "It was a trap! The walls of the cave start closing in. Conveniently, there is a trapdoor in the ceiling. But how can you get to it?";
+                    fg.FillRectangle(whiteBrush, 10, 200, 50, 50);
+                    fg.FillRectangle(whiteBrush, 90, 200, 50, 50);
+                    fg.FillRectangle(whiteBrush, 50, 150, 50, 50);
+                    break;
+                case 14:
+                    while (flash < 10)
+                    {
+                        if (label1.ForeColor == Color.White)
+                        {
+                            label1.ForeColor = Color.Lime;
+                        }
+                        else if (label1.ForeColor == Color.Lime)
+                        {
+                            label1.ForeColor = Color.White;
+                        }
+                        label1.Text = "MINI GAME";
+                    }
+                    break;
             }
         }
+
+        private void Form1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Up)
+            {
+                upKey = false;
+            }
+            if (e.KeyCode == Keys.Down)
+            {
+                downKey = false;
+            }
+            if (e.KeyCode == Keys.Left)
+            {
+                leftKey = false;
+            }
+            if (e.KeyCode == Keys.Right)
+            {
+                rightKey = false;
+            }
+  
+        }
+
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
@@ -173,10 +329,18 @@ namespace WindowsFormsApplication1
             pictureBox1.Location = new Point(monsterX, monsterY);
             pictureBox2.Location = new Point(monsterX + 50, monsterY + 50);
             pictureBox3.Location = new Point(heroX, heroY);
-            e.Graphics.FillRectangle(doorBrush, this.Width - 175, 0, 125, 200);
-            e.Graphics.FillEllipse(goldBrush, this.Width - 170, 100, 20, 20);
 
         }
 
+        private void exitLabel_MouseMove(object sender, MouseEventArgs e)
+        {
+            exitLabel.ForeColor = Color.OrangeRed;
+            label1.Text = "Good job! Press A to continue.";
+        }
+
+        //unused method
+        private void exitLabel_Click(object sender, EventArgs e)
+        {
+        }
     }
 }
