@@ -1,5 +1,6 @@
-﻿//add code for mini game 1
-//fix the map
+﻿//Created by Joy Harris
+//January 25 2017
+//An interactive adventure game
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -36,10 +37,14 @@ namespace WindowsFormsApplication1
         int exitY;
         int startScene = 0;
         int flash = 0;
+        int num1;
+        int num2;
         Boolean leftKey = false, rightKey = false, upKey = false, downKey = false;
 
+        //create random generator
         Random randGen = new Random();
 
+        //brushes
         SolidBrush doorBrush = new SolidBrush(Color.Sienna);
         SolidBrush goldBrush = new SolidBrush(Color.Gold);
         SolidBrush whiteBrush = new SolidBrush(Color.PeachPuff);
@@ -47,12 +52,11 @@ namespace WindowsFormsApplication1
         public Form1()
         {
             InitializeComponent();
-
             chaseTimer.Start();
             Refresh();
         }
 
-        //unused timer method
+        //timer changes hero position
         private void chaseTimer_Tick(object sender, EventArgs e)
         {
             if (leftKey == true && heroX > 0)
@@ -84,7 +88,7 @@ namespace WindowsFormsApplication1
         {
             Graphics fg = this.CreateGraphics();
 
-            //controls character movement and switches scenes
+            //controls character movement
             if (e.KeyCode == Keys.Up)
             {
                 upKey = true;
@@ -126,6 +130,8 @@ namespace WindowsFormsApplication1
                 leftKey = false;
             }
 
+            //switch to control scenes
+            #region
             switch (e.KeyCode)
             {
                 case Keys.A:
@@ -140,6 +146,10 @@ namespace WindowsFormsApplication1
                     else if (scene == 3)
                     {
                         scene = 14;
+                    }
+                    else if (scene == 5)
+                    {
+                        scene = 6;
                     }
                     else if (scene == 6)
                     {
@@ -163,6 +173,14 @@ namespace WindowsFormsApplication1
                     else if (scene == 10)
                     {
                         scene = 11;
+                    }
+                    else if (scene == 14)
+                    {
+                        scene = 15;
+                    }
+                    else if (scene == 15)
+                    {
+                        scene = 16;
                     }
                     break;
                 case Keys.S:
@@ -204,8 +222,9 @@ namespace WindowsFormsApplication1
                     }
                     break;
             }
+            #endregion
 
-            //controls scenes
+            //scene actions
             switch (scene)
             {
                 case 0:
@@ -215,7 +234,7 @@ namespace WindowsFormsApplication1
                 case 1:
                     if (scene == 1)
                     {
-                        label1.Text = "You step through the door and see something at your feet. Pick it up? \n\nA = Yes";
+                        label1.Text = "You step through the door and see something on the ground. Pick it up? \n\nA = Yes";
                     }
                     fg.Clear(Color.Black);
                     fg.FillRectangle(whiteBrush, this.Width - 500, this.Height / 2, 50, 30);
@@ -252,7 +271,7 @@ namespace WindowsFormsApplication1
                     break;
                 case 8:                 
                     pictureBox4.Visible = false;
-                    label1.Text = "You run a long way and find an unlocked sewer gate. You decide to go through it, and on the other side it's totally dark. When you feel your shoes start to get wet. \n\nA = Keep Going \nS = Turn Back";
+                    label1.Text = "You run a long way. Just when you think you can't go any further, you find an unlocked sewer gate. You decide to go through it, and on the other side it's totally dark. When you feel your shoes start to get wet. \n\nA = Keep Going \nS = Turn Back";
                     break;
                 case 9:
                     label1.Text = "You should probably find yourself an exit...";
@@ -276,13 +295,20 @@ namespace WindowsFormsApplication1
                 case 12:
                     label1.Text = "You don't pick up the kitten. You heartless creature. \n\nA = Change Your Mind";
                     break;
-                case 13:
+                case 13:;
                     label1.Text = "It was a trap! The walls of the cave start closing in. Conveniently, there is a trapdoor in the ceiling. But how can you get to it?";
                     fg.FillRectangle(whiteBrush, 10, 200, 50, 50);
                     fg.FillRectangle(whiteBrush, 90, 200, 50, 50);
                     fg.FillRectangle(whiteBrush, 50, 150, 50, 50);
+                    Rectangle r1 = new Rectangle(heroX, heroY, 126, 130);
+                    Rectangle r3 = new Rectangle(10, 150, 130, 100);
+                    if (r1.IntersectsWith(r3))
+                    {
+                        scene = 14;
+                    }
                     break;
                 case 14:
+                    //case for mini game
                     while (flash < 10)
                     {
                         if (label1.ForeColor == Color.White)
@@ -295,12 +321,25 @@ namespace WindowsFormsApplication1
                         }
                         label1.Text = "MINI GAME";
                     }
+                    label1.Text = "Answer 3 questions in a row correctly to sucessfully stack the boxes. Press A to start.";
+                    break;
+                case 15:
+                    num1 = randGen.Next(50, 100);
+                    num2 = randGen.Next(50, 100);
+                    label1.Text = num1 + "  +  " + num2;
+                    //case 14 case 15 case 16 r3 add some comments and edited scene pathway
+                    break;
+                case 16:
+                    label1.ForeColor = Color.Black;
+                    this.BackColor = Color.White;
+                    label1.Text = "You pull yourself up throught the trapdoor, and suddenly it gets really bright. As your eyes adjust, you realize your finally outside! You win!";
                     break;
             }
         }
 
         private void Form1_KeyUp(object sender, KeyEventArgs e)
         {
+            //controls character movement
             if (e.KeyCode == Keys.Up)
             {
                 upKey = false;
@@ -319,7 +358,6 @@ namespace WindowsFormsApplication1
             }
   
         }
-
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
