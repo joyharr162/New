@@ -26,8 +26,6 @@ namespace WindowsFormsApplication1
         Image rightHero = Properties.Resources.personRight;
         Image monster1 = Properties.Resources.monsterPiskel;
         Image monster2 = Properties.Resources.monsterPiskel2;
-        int monsterX = 500;
-        int monsterY = 500;
         int heroX = 500;
         int heroY = 500;
         int speed = 2;
@@ -35,8 +33,6 @@ namespace WindowsFormsApplication1
         int playerLives = 3;
         int exitX;
         int exitY;
-        int startScene = 0;
-        int flash = 0;
         int num1;
         int num2;
 
@@ -294,8 +290,7 @@ namespace WindowsFormsApplication1
                     break;
                 case 10:
                     exitLabel.Visible = false;
-                    label1.Text = "You've reached a save point. You'll spawn here if you die. Press A to continue.";
-                    startScene = 11;
+                    label1.Text = "Congradulations! For making it this far, you get an extra life. Press A to continue";
                     break;
                 case 11:
                     label1.Text = "You turn a corner and suddenly you here a faint meow. It's a kitten! Do you pick it up? \n\nA = Pick it up \nS = Leave it on the ground";
@@ -322,19 +317,7 @@ namespace WindowsFormsApplication1
                     break;
                 case 14:
                     //case for mini game
-                    while (flash < 10)
-                    {
-                        if (label1.ForeColor == Color.White)
-                        {
-                            label1.ForeColor = Color.Lime;
-                        }
-                        else if (label1.ForeColor == Color.Lime)
-                        {
-                            label1.ForeColor = Color.White;
-                        }
-                        label1.Text = "MINI GAME";
-                    }
-                    label1.Text = "Answer 2 questions in a row correctly to sucessfully stack the boxes. Press A to start.";
+                    label1.Text = "MINI GAME! Answer 2 questions correctly to sucessfully stack the boxes. Press A to start.";
                     break;
                 case 15:
                     checkButton.Visible = true;
@@ -394,18 +377,28 @@ namespace WindowsFormsApplication1
             label1.Text = num1 + "  +  " + num2;
             if (inputBox.Text == num1 + num2 + "") //if player answers question correctly
             {
-                label1.Text = "Nice. 2 More";
+                label1.Text = "Nice. 1 More";
                 num1 = randGen.Next(50, 100);
                 num2 = randGen.Next(50, 100);
                 label1.Text = num1 + "  +  " + num2;
+                if (inputBox.Text == num1 + num2 + "")
+                {
+                    label1.Text = "You stacked the boxes";
+                }
+                else if (inputBox.Text != num1 + num2 + "")
+                {
+                    label1.Text = "You lost another life";
+                    playerLives = playerLives - 1;
+                }
             }
             else if (inputBox.Text != num1 + num2 + "")
             {
-                label1.Text = "Wrong! Try again";
+                label1.Text = "Wrong! You lost a life. Try again";
                 label1.Text = "Nice. 2 More";
                 num1 = randGen.Next(50, 100);
                 num2 = randGen.Next(50, 100);
                 label1.Text = num1 + "  +  " + num2;
+                playerLives = playerLives - 1;
             }
         }
 
