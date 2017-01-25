@@ -101,6 +101,18 @@
   <ItemGroup>
     <None Include="Resources\catPiskel.gif" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Spooky Water Drops-SoundBible.com-50164895.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\cat_meow_x.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\door_creak.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\door_lock.wav" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
