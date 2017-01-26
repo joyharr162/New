@@ -81,9 +81,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\monsterPiskel.gif" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\personBack.gif" />
   </ItemGroup>
   <ItemGroup>
@@ -94,9 +91,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\person.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\monsterPiskel2.gif" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\catPiskel.gif" />
@@ -112,6 +106,21 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\door_lock.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DoorPiskel.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Box Piskel.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\monsterPiskel.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\monsterPiskel2.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Short_triumphal_fanfare-John_Stracke-815794903.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

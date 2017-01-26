@@ -130,12 +130,6 @@
   <data name="door_lock" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\door_lock.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="monsterPiskel" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\monsterPiskel.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="monsterPiskel2" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\monsterPiskel2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="person" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\person.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -150,5 +144,20 @@
   </data>
   <data name="Spooky_Water_Drops_SoundBible_com_50164895" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Spooky Water Drops-SoundBible.com-50164895.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Box_Piskel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Box Piskel.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="DoorPiskel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\DoorPiskel.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="monsterPiskel" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\monsterPiskel.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="monsterPiskel2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\monsterPiskel2.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Short_triumphal_fanfare_John_Stracke_815794903" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\Short_triumphal_fanfare-John_Stracke-815794903.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
 </root>

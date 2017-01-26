@@ -26,6 +26,7 @@ namespace WindowsFormsApplication1
         Image rightHero = Properties.Resources.personRight;
         Image monster1 = Properties.Resources.monsterPiskel;
         Image monster2 = Properties.Resources.monsterPiskel2;
+        Image Door = Properties.Resources.DoorPiskel;
         int heroX = 500;
         int heroY = 500;
         int speed = 2;
@@ -37,6 +38,7 @@ namespace WindowsFormsApplication1
         int num2;
 
         //sounds
+        SoundPlayer winSound = new SoundPlayer(Properties.Resources.Short_triumphal_fanfare_John_Stracke_815794903);
         SoundPlayer catPlayer = new SoundPlayer(Properties.Resources.cat_meow_x);
         SoundPlayer doorCreak = new SoundPlayer(Properties.Resources.door_creak);
         SoundPlayer doorLock = new SoundPlayer(Properties.Resources.door_lock);
@@ -51,12 +53,19 @@ namespace WindowsFormsApplication1
         SolidBrush goldBrush = new SolidBrush(Color.Gold);
         SolidBrush brownBrush = new SolidBrush(Color.SandyBrown);
         SolidBrush whiteBrush = new SolidBrush(Color.PeachPuff);
-
         public Form1()
         {
             InitializeComponent();
             chaseTimer.Start();
             Refresh();
+        }
+
+        public void Collisions()
+        {
+            if (pictureBox3.Bounds.IntersectsWith(doorBox.Bounds))
+            {
+                scene = 1;
+            }
         }
 
         //timer changes hero position
@@ -66,7 +75,7 @@ namespace WindowsFormsApplication1
             {
                heroX = heroX - speed;
             }
-            else if (rightKey == true && heroX < 920)
+            else if (rightKey == true && heroX < 950)
             {
                 heroX = heroX + speed;
             }
@@ -79,12 +88,14 @@ namespace WindowsFormsApplication1
                 heroY = heroY + speed;
             }
             pictureBox3.Location = new Point(heroX, heroY);
-            Rectangle r1 = new Rectangle(heroX, heroY, 126, 130);
-            Rectangle r2 = new Rectangle(this.Width - 175, 0, 125, 200);
-            //detect player entering door
-            if (r1.IntersectsWith(r2))
+            if (heroX < 0)
             {
                 scene = 1;
+            }
+            if (playerLives == 0)
+            {
+                loseLabel.Visible = true;
+                checkButton.Enabled = false;
             }
         }
 
@@ -147,9 +158,13 @@ namespace WindowsFormsApplication1
                     {
                         scene = 3;
                     }
+                    else if (scene == 4)
+                    {
+                        scene = 2;
+                    }
                     else if (scene == 3)
                     {
-                        scene = 14;
+                        scene = 11;
                     }
                     else if (scene == 5)
                     {
@@ -158,6 +173,10 @@ namespace WindowsFormsApplication1
                     else if (scene == 6)
                     {
                         scene = 8;
+                    }
+                    else if (scene == 7)
+                    {
+                        scene = 2;
                     }
                     else if (scene == 8)
                     {
@@ -171,6 +190,10 @@ namespace WindowsFormsApplication1
                         }
                     }
                     else if (scene == 11)
+                    {
+                        scene = 13;
+                    }
+                    else if (scene == 12)
                     {
                         scene = 13;
                     }
@@ -232,14 +255,15 @@ namespace WindowsFormsApplication1
             switch (scene)
             {
                 case 0:
-                    Refresh();
+                    Collisions();
 
                     break;
                 case 1:
+                    doorBox.Visible = false;
                     if (scene == 1)
                     {
                         doorCreak.Play();
-                        label1.Text = "You step through the door and see something on the ground. Pick it up? \n\nA = Yes";
+                        label1.Text = "You hear noises in the distance... you start to get scared. You see something on the ground. Pick it up? A = Yes";
                     }
                     fg.Clear(Color.Black);
                     fg.FillRectangle(whiteBrush, this.Width - 500, this.Height / 2, 50, 30);
@@ -247,35 +271,37 @@ namespace WindowsFormsApplication1
                     pictureBox3.Visible = false;
                     break;
                 case 2:
-                    inventoryLabel.Text = "Flashlight      Map";
+                    inventoryLabel.Text = "Flashlight      Map        Paper Clip";
                     pictureBox4.Visible = false;
                     fg.Clear(Color.Black);
                     label1.Text = "You realize this is a map of your surroundings. You are at a fork with four tunnels, which have no distinguishable differences. Which do you go down?  A = Tunnel 1  S = Tunnel 2  W = Tunnel 3  D = Tunnel 4";
                     break;
                 case 3:
                     //tunnel 1
-                    label1.Text = "You come to a locked gate. What do you do?  A = Pick Lock  S = Turn Back";
+                    label1.Text = "You come to a locked gate. What do you do?  A = Pick the lock with your paper clip  S = Turn Back";
                     break;
                 case 4:
                     //tunnel 2
-                    label1.Text = "You trip, fall, and hit your hit your head. You lose a life.";
+                    label1.Text = "You trip, fall, and hit your hit your head. You lose a life. Press A to go back.";
                     playerLives--;
                     livesLabel.Text = "LIVES : " + playerLives;
                     break;
                 case 5:
                     //tunnel3
-                    label1.Text = "You hear noises. How will you investigate?\n\nA = Investigate Quietly \nS= Ask Who's There";
+                    label1.Text = "You hear noises again. How will you investigate?  A = Investigate Quietly S= Ask Who's There";
                     break;
                 case 6:
                     //tunnel4
-                    label1.Text = "You pull out your flashlight and wave it around. The light allows you to see pairs of eyes in the distance. Do you run or try to fight?\n\nA = Run! \nS = Fight!";
+                    label1.Text = "You pull out your flashlight and wave it around. The light allows you to see pairs of eyes in the distance. A = Run!";
                     break;
                 case 7:
-                    label1.Text = "You yell 'Who's there?' but no one answers... Suddenly something grabs you from behind. You lose a life";
+                    label1.Text = "You yell 'Who's there?' but no one answers... Suddenly something grabs you from behind. You lose a life. Press A to go back.";
+                    playerLives--;
+                    livesLabel.Text = "LIVES: " + playerLives;
                     break;
                 case 8:                 
                     pictureBox4.Visible = false;
-                    label1.Text = "You run a long way. Just when you think you can't go any further, you find an unlocked sewer gate. You decide to go through it, and on the other side it's totally dark. You start to feel your shoes getting wet. \n\nA = Keep Going \nS = Turn Back";
+                    label1.Text = "You run a long way. Just when you think you can't go any further, you find an unlocked sewer gate. You decide to go through it, and on the other side it's totally dark. You start to feel your shoes getting wet. A = Keep Going S = Turn Back";
                     //play water dripping sound
                     waterPlayer.Play();
                     break;
@@ -291,42 +317,41 @@ namespace WindowsFormsApplication1
                 case 10:
                     exitLabel.Visible = false;
                     label1.Text = "Congradulations! For making it this far, you get an extra life. Press A to continue";
+                    playerLives++;
+                    livesLabel.Text = "LIVES: " + playerLives; 
                     break;
                 case 11:
-                    label1.Text = "You turn a corner and suddenly you here a faint meow. It's a kitten! Do you pick it up? \n\nA = Pick it up \nS = Leave it on the ground";
+                    label1.Text = "You turn a corner and suddenly you here a faint meow. It's a kitten! Do you pick it up?    A = Pick it up S = Leave it on the ground";
                     //play kitten sound
                     catPlayer.Play();
                     pictureBox3.Visible = true;
                     pictureBox3.Image = cat;
                     break;
                 case 12:
-                    label1.Text = "You don't pick up the kitten. You heartless creature. \n\nA = Change Your Mind";
+                    label1.Text = "You don't pick up the kitten. You heartless creature. A = Change Your Mind";
                     break;
-                case 13:;
-                    label1.Text = "It was a trap! The walls of the cave start closing in. Conveniently, there is a trapdoor in the ceiling. But how can you get to it?";
-                    fg.FillRectangle(brownBrush, 10, 200, 50, 50);
-                    fg.FillRectangle(brownBrush, 90, 200, 50, 50);
-                    fg.FillRectangle(brownBrush, 50, 150, 50, 50);
-                    Rectangle r1 = new Rectangle(heroX, heroY, 126, 130);
-                    Rectangle r3 = new Rectangle(10, 150, 130, 100);
+                case 13:
+                    //pictureBox3.Image = forwardHero;
+                    label1.Text = "It was a trap! The walls of the cave start closing in. Conveniently, there is a trapdoor in the ceiling. But how can you get to it? Use the arrow keys.";
+                    boxBox.Visible = true;
                     //detect if the player contacts the stack of boxes
-                    if (r1.IntersectsWith(r3))
+                    if (boxBox.Bounds.IntersectsWith(pictureBox3.Bounds))
                     {
                         scene = 14;
                     }
                     break;
                 case 14:
                     //case for mini game
-                    label1.Text = "MINI GAME! Answer 2 questions correctly to sucessfully stack the boxes. Press A to start.";
+                    boxBox.Visible = false;
+                    label1.Text = "MINI GAME! Answer this math question correctly to sucessfully stack the boxes. Press A to start.";
                     break;
                 case 15:
+                    num1 = randGen.Next(100, 200);
+                    num2 = randGen.Next(100, 200);
+                    numberLabel.Visible = true;
+                    numberLabel.Text = num1 + "  +  " + num2;
                     checkButton.Visible = true;
                     inputBox.Visible = true;
-                    break;
-                case 16:
-                    label1.ForeColor = Color.Black;
-                    this.BackColor = Color.White;
-                    label1.Text = "You pull yourself up throught the trapdoor, and suddenly it gets really bright. As your eyes adjust, you realize your finally outside! You win!";
                     break;
             }
         }
@@ -353,16 +378,6 @@ namespace WindowsFormsApplication1
   
         }
 
-
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-            e.Graphics.FillRectangle(doorBrush, this.Width - 175, 0, 125, 200);
-            e.Graphics.FillEllipse(goldBrush, this.Width - 170, 100, 20, 20);
-            Rectangle r3 = new Rectangle(heroX, heroY, 126, 130);
-            pictureBox3.Location = new Point(heroX, heroY);
-
-        }
-
         private void exitLabel_MouseMove(object sender, MouseEventArgs e)
         {
             exitLabel.ForeColor = Color.OrangeRed;
@@ -372,38 +387,35 @@ namespace WindowsFormsApplication1
         //checks the answers to the mini game
         private void checkButton_Click(object sender, EventArgs e)
         {
-            num1 = randGen.Next(50, 100);
-            num2 = randGen.Next(50, 100);
-            label1.Text = num1 + "  +  " + num2;
             if (inputBox.Text == num1 + num2 + "") //if player answers question correctly
             {
-                label1.Text = "Nice. 1 More";
-                num1 = randGen.Next(50, 100);
-                num2 = randGen.Next(50, 100);
-                label1.Text = num1 + "  +  " + num2;
-                if (inputBox.Text == num1 + num2 + "")
-                {
-                    label1.Text = "You stacked the boxes";
-                }
-                else if (inputBox.Text != num1 + num2 + "")
-                {
-                    label1.Text = "You lost another life";
-                    playerLives = playerLives - 1;
-                }
+                label1.Text = "Nice! You stacked the boxes. You pull yourself up through the trapdoor, and suddenly it gets really bright. As your eyes adjust, you realize your finally outside! YOU WIN!";
             }
             else if (inputBox.Text != num1 + num2 + "")
             {
+                winSound.Play();
                 label1.Text = "Wrong! You lost a life. Try again";
-                label1.Text = "Nice. 2 More";
-                num1 = randGen.Next(50, 100);
-                num2 = randGen.Next(50, 100);
-                label1.Text = num1 + "  +  " + num2;
-                playerLives = playerLives - 1;
+                playerLives--;
+                livesLabel.Text = "LIVES : " + playerLives;
+                checkButton.Visible = false;
+                inputBox.Visible = false;
             }
         }
 
         private void exitLabel_Click(object sender, EventArgs e)
         {
+
         }
+
+        private void Form1_Paint(object sender, PaintEventArgs e)
+        {
+            pictureBox3.Location = new Point(heroX, heroY - 100);
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
     }
 }
